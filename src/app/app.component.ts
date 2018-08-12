@@ -19,6 +19,9 @@ export class AppComponent {
                   ];
   newItemName = '';
 
+  sortByTitleOrderAsc = true;
+  sortByRatingOrderAsc = true;
+
   addItem() {
     if (this.newItemName !== '') {
       this.priorityList.push({'title': this.newItemName, 'rating': 1});
@@ -32,5 +35,31 @@ export class AppComponent {
 
   removeItem(i) {
     this.priorityList.splice(i, 1);
+  }
+
+  sortPriorityList(n) {
+    if (n === 1) { // By title
+      this.priorityList.sort((a, b) => {
+        if (a.title.toLowerCase() < b.title.toLowerCase()) {
+          return this.sortByTitleOrderAsc ? -1 : 1;
+        }
+        if (a.title.toLowerCase() > b.title.toLowerCase()) {
+          return this.sortByTitleOrderAsc ? 1 : -1;
+        }
+        return 0;
+      });
+      this.sortByTitleOrderAsc = !this.sortByTitleOrderAsc;
+    } else if (n === 2) { // By rating
+      this.priorityList.sort((a, b) => {
+        if (a.rating < b.rating) {
+          return this.sortByRatingOrderAsc ? -1 : 1;
+        }
+        if (a.rating > b.rating) {
+          return this.sortByRatingOrderAsc ? 1 : -1;
+        }
+        return 0;
+      });
+      this.sortByRatingOrderAsc = !this.sortByRatingOrderAsc;
+    }
   }
 }

@@ -1,26 +1,49 @@
 <!-- Swag -->
-<div style="text-align:center">
-  <h1>
-    Welcome to {{ title }}!
-  </h1>
-</div>
-<h2>Add items to the list and asign priority level to them: </h2>
-<div>
-  <form (submit)="addItem()" novalidate>
-    <input type="text" [(ngModel)]="newItemName" name="newItemName" placeholder="New item...">
-    <button type="submit">Add</button>
-  </form>
-</div>
-<table>
-  <tr *ngFor="let item of priorityList; index as i;">
-    <td>{{ item.title }}</td>
-    <td>
-      <div class="rating">
-        <span *ngFor="let number of [5,4,3,2,1]"
-              [ngClass]="{'selected': item.rating >= number}"
-              (click)="setRating(i, number)">☆</span>
+<div class="container">
+  <div class="row">
+    <div class="col-12">
+      <div style="text-align:center">
+        <h1>
+          {{ title }}
+        </h1>
       </div>
-    </td>
-    <td><button (click)="removeItem(i)">Remove</button></td>
-  </tr>
-</table>
+      <div class="alert alert-info">Add items to the list and asign priority level to them</div>
+      <form (submit)="addItem()" class="input-group mt-5" novalidate>
+        <input type="text" [(ngModel)]="newItemName" class="form-control" name="newItemName" placeholder="New item...">
+        <div class="input-group-append">
+          <button type="submit" class="btn btn-sm btn-success">
+              <i class="fa fa-plus"></i> Add
+          </button>
+        </div>
+      </form>
+      <div class="table-responsive">
+        <table id="priorityListTable" class="table mt-4">
+          <thead>
+            <tr>
+              <th (click)="sortPriorityList(1)">Title <i class="fa" [ngClass]="{'fa-sort-down': sortByTitleOrderAsc, 'fa-sort-up': !sortByTitleOrderAsc}"></i></th>
+              <th (click)="sortPriorityList(2)">Priority <i class="fa" [ngClass]="{'fa-sort-down': sortByRatingOrderAsc, 'fa-sort-up': !sortByRatingOrderAsc}"></i></th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of priorityList; index as i;">
+              <td>{{ item.title }}</td>
+              <td>
+                <div class="rating">
+                  <span *ngFor="let number of [5,4,3,2,1]"
+                        [ngClass]="{'selected': item.rating >= number}"
+                        (click)="setRating(i, number)">☆</span>
+                </div>
+              </td>
+              <td class="text-right">
+                <button (click)="removeItem(i)" class="btn btn-sm btn-danger">
+                  <i class="fa fa-trash"></i><span class="d-none d-sm-inline"> Remove</span>
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
